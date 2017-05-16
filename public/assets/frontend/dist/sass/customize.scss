@@ -1,0 +1,26 @@
+// SIDEBAR PANEL
+.sidebar-offcanvas{
+  z-index: 105;
+}
+.list-group-submenu{padding-left:15px}
+
+// PANEL BODY
+h3.panel-title{
+  font-weight: 600;
+  font-size:18px;
+}
+.panel-body{
+  height:700px;
+  overflow-y: scroll;
+}
+
+// TABLE
+.inline-block-span{
+  display: inline-block;
+}
+
+
+// FOOTER
+.site-footer{
+  z-index: 100;
+}
