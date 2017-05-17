@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="favicon_16.ico"/>
     <link rel="bookmark" href="favicon_16.ico"/>
     <!-- site css -->
-    <link rel="stylesheet" href="dist/css/site.min.css">
+    <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/css/site.min.css">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css">
     <!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'> -->
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
@@ -15,7 +15,7 @@
       <script src="js/html5shiv.js"></script>
       <script src="js/respond.min.js"></script>
     <![endif]-->
-    <script type="text/javascript" src="dist/js/site.min.js"></script>
+    <script type="text/javascript" src="{{asset('/public/assets/admin')}}/dist/js/site.min.js"></script>
     <style>
       body {
         padding-top: 40px;
@@ -27,7 +27,8 @@
   </head>
   <body>
     <div class="container">
-      <form class="form-signin" role="form" action="index.html">
+      <form class="form-signin" role="form" action="{{url('register')}}" method="POST">
+        {{Form::token()}}
         <h3 class="form-signin-heading">Register New User</h3>
         <div class="form-group">
           <div class="input-group">
