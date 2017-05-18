@@ -2,6 +2,7 @@
 Route::group(['prefix' => 'admin', 'namespace' => 'App\Modules\Admin\Controllers'], function(){
   // Authentication Routes...
   Route::group(['middleware'=>'web'], function(){
+
     Route::get('login', 'Auth\AuthController@showLoginForm');
     Route::post('login', 'Auth\AuthController@login');
     Route::get('logout', 'Auth\AuthController@logout');
@@ -15,8 +16,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Modules\Admin\Controllers
     Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'Auth\PasswordController@reset');
 
-    Route::any('create-role', ['as' => 'admin.createRole', 'uses' => 'Auth\RoleController@createRole']);
-
+    Route::any('/create-role', ['as' => 'admin.createRole', 'uses' => 'Auth\RoleController@createRole']);
+    Route::post('/ajax-role', ['as' => 'admin.ajaxCreateRole', 'uses' => 'Auth\RoleController@postAjaxRole']);
   });
 
 });

@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Bootflat-Admin Template</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="favicon_16.ico"/>
     <link rel="bookmark" href="favicon_16.ico"/>
@@ -17,11 +18,53 @@
       <script src="js/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript" src="{{asset('/public/assets/admin')}}/dist/js/site.min.js"></script>
-    <!--
-      Bootstrap Select
-    -->
+
+    <!-- Bootstrap Select  -->
     <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/js/plugins/bootstrap-select/css/bootstrap-select.min.css">
     <script type="text/javascript" src="{{asset('/public/assets/admin')}}/dist/js/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
+
+    <script>
+      $(document).ready(function(){
+        // CREATE ROLE
+        $('#btn-role').click(function(){
+          const rolename = $('input[name="role_name"]').val();
+          const description = $('textarea[name="role_description"]').val();
+          $.ajax({
+            url: "{{route('admin.ajaxCreateRole')}}",
+            type: 'POST',
+            data: {name: rolename, description: description,  _token: $('meta[name="csrf-token"]').attr('content') },
+            success: function(data){
+                $('input[name="role_name"]').val('');
+                $('textarea[name="role_description"]').val('');
+                if(data.error){
+                  $('#role-show').append(`<div class="alert alert-danger">${data.rs.name}</div>`);
+                }
+                $('#role-show').append(`<div class="alert alert-success">${data.rs}</div>`);
+            },
+          })
+        });
+
+        // CREATE PERMISSION
+        $('#btn-role').click(function(){
+          const rolename = $('input[name="permission_name"]').val();
+          const description = $('textarea[name="role_description"]').val();
+          $.ajax({
+            url: "{{route('admin.ajaxCreateRole')}}",
+            type: 'POST',
+            data: {name: rolename, description: description,  _token: $('meta[name="csrf-token"]').attr('content') },
+            success: function(data){
+                $('input[name="permission_name"]').val('');
+                $('textarea[name="role_description"]').val('');
+                if(data.error){
+                  $('#permission-show').append(`<div class="alert alert-danger">${data.rs.name}</div>`);
+                }
+                $('#role-show').append(`<div class="alert alert-success">${data.rs}</div>`);
+            },
+          })
+        });
+
+      })
+    </script>
     <style>
       body {
         padding-top: 40px;
@@ -43,7 +86,10 @@
           <div class="form-group">
             <textarea name="role_description" rows="3" class="form-control" placeholder="Role description (Opt)..."></textarea>
           </div>
-          <button class="btn btn-lg btn-primary btn-block" id="btn-role" type="button">Create Role</button>
+          <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block" id="btn-role" type="button">Create Role</button>
+          </div>
+          <div id="role-show"></div>
         </fieldset>
 
         <fieldset class="permission">
@@ -55,6 +101,7 @@
             <textarea name="permission_description" rows="3" class="form-control" placeholder="Permission description (Opt)..."></textarea>
           </div>
           <button class="btn btn-lg btn-primary btn-block" id="btn-permission" type="button">Create Permission</button>
+          <div id="permission-show"></div>
         </fieldset>
 
         <fieldset class="assign">

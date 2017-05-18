@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\Permission;
+use Validator;
 
 class RoleController extends Controller
 {
@@ -30,12 +31,19 @@ class RoleController extends Controller
       if(!$request->ajax()){
         abort(404);
       }else{
+        $rule = [
+          'name' => 'unique:roles,name'
+        ];
+        $valid = Validator::make($request->all(), $rule);
+        if($valid->fails()){
+            return response()->json(['error' =>true, 'rs' => $valid->errors() ], 200);
+        }
         $role = new Role;
         $role->name = $request->name;
         $role->display_name = \LP_lib::unicodenospace($request->name);
         $role->description = $request->description;
         $role->save();
-        return response()->json(['error' => false, 'rs' => $role], 200);
+        return response()->json(['error' => false, 'rs' => 'Role created !'], 200);
       }
     }
 
@@ -51,5 +59,14 @@ class RoleController extends Controller
         $permission->save();
         return response()->json(['error' => false, 'rs' => $permission], 200);
       }
+    }
+
+    public function checkExist($input, $rule)
+    {
+      $valid = Validator::make($input, $rule);
+      if($valid->fails()){
+        return $data = ['error' => true, 'valid' =>$valid->errors()];
+      }
+      return $data = ['error' => false, 'valid' =>false];
     }
 }
