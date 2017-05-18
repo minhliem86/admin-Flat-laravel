@@ -22,6 +22,7 @@ class RoleController extends Controller
 
         return redirect()->url('login');
       }
+      return view('Admin::auth.role');
     }
 
     public function postAjaxRole(Request $request)

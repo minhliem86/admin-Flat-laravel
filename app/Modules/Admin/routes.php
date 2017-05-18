@@ -14,6 +14,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Modules\Admin\Controllers
     Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
     Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
     Route::post('password/reset', 'Auth\PasswordController@reset');
+
     Route::any('create-role', ['as' => 'admin.createRole', 'uses' => 'Auth\RoleController@createRole']);
 
   });
