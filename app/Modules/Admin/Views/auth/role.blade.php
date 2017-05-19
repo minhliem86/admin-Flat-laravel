@@ -37,33 +37,49 @@
                 $('input[name="role_name"]').val('');
                 $('textarea[name="role_description"]').val('');
                 if(data.error){
-                  $('#role-show').append(`<div class="alert alert-danger">${data.rs.name}</div>`);
+                  $('#role-show').append(`<div class="alert alert-danger alert-ajax">${data.rs.name}</div>`);
+                }else{
+                  $('#role-show').append(`<div class="alert alert-success alert-ajax">${data.rs}</div>`);
+                  $('#role_select').empty();
+                  $('#role_select').append(data.role);
                 }
-                $('#role-show').append(`<div class="alert alert-success">${data.rs}</div>`);
+                hideAlert('.alert-ajax');
             },
           })
         });
 
         // CREATE PERMISSION
-        $('#btn-role').click(function(){
-          const rolename = $('input[name="permission_name"]').val();
-          const description = $('textarea[name="role_description"]').val();
+        $('#btn-permission').click(function(){
+          const per_name = $('input[name="permission_name"]').val();
+          const per_description = $('textarea[name="permission_description"]').val();
           $.ajax({
-            url: "{{route('admin.ajaxCreateRole')}}",
+            url: "{{route('admin.ajaxCreatePermission')}}",
             type: 'POST',
-            data: {name: rolename, description: description,  _token: $('meta[name="csrf-token"]').attr('content') },
+            data: {name: per_name, description: per_description,  _token: $('meta[name="csrf-token"]').attr('content') },
             success: function(data){
                 $('input[name="permission_name"]').val('');
-                $('textarea[name="role_description"]').val('');
+                $('textarea[name="permission_description"]').val('');
                 if(data.error){
-                  $('#permission-show').append(`<div class="alert alert-danger">${data.rs.name}</div>`);
+                  $('#permission-show').append(`<div class="alert alert-danger alert-ajax">${data.rs.name}</div>`);
+
+                }else{
+                  $('#permission-show').append(`<div class="alert alert-success alert-ajax">${data.rs}</div>`);
+                  $('#permission_select').empty();
+                  console.log(data.per);
+                  $('#permission_select').append(data.per);
                 }
-                $('#role-show').append(`<div class="alert alert-success">${data.rs}</div>`);
+                hideAlert('.alert-ajax');
             },
           })
         });
 
       })
+
+      function hideAlert(item){
+        setTimeout(function() {
+          $(item).fadeOut();
+        }, 3000)
+      }
     </script>
     <style>
       body {
@@ -76,7 +92,7 @@
   </head>
   <body>
     <div class="container">
-      <form class="form-signin" id="form-role" role="form" action="{{url('register')}}" method="POST">
+      <form class="form-signin" id="form-role" role="form" action="{{route('admin.postCreateRole')}}" method="POST">
         {{Form::token()}}
         <fieldset class="role">
           <legend class="form-signin-heading">Register New Role</legend>
@@ -93,30 +109,42 @@
         </fieldset>
 
         <fieldset class="permission">
-          <legend class="form-signin-heading">Register New Role</legend>
+          <legend class="form-signin-heading">Register New Permission</legend>
           <div class="form-group">
             <input type="text" class="form-control" name="permission_name" id="permission_name" placeholder="Permission Name" autocomplete="off" />
           </div>
           <div class="form-group">
             <textarea name="permission_description" rows="3" class="form-control" placeholder="Permission description (Opt)..."></textarea>
           </div>
-          <button class="btn btn-lg btn-primary btn-block" id="btn-permission" type="button">Create Permission</button>
+          <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block" id="btn-permission" type="button">Create Permission</button>
+          </div>
+
           <div id="permission-show"></div>
         </fieldset>
 
         <fieldset class="assign">
           <legend class="form-signin-heading">Assign Role & Permission</legend>
-          <div class="form-group" id="role_show">
-            <select name="role_id" id="role_id" class="form-control selectpicker" disabled>
-              <option value="" >Select Role</option>
-            </select>
+          <div class="form-group" id="role_select">
+            @include('Admin::ajax.ajaxRole')
           </div>
-          <div class="form-group" id="permission_show">
-            <select name="permission_id" id="permission_id" class="form-control selectpicker" disabled>
-              <option value="" >Select Permission</option>
-            </select>
+          <div class="form-group" id="permission_select">
+            @include('Admin::ajax.ajaxPermission')
           </div>
-          <button class="btn btn-lg btn-primary btn-block" name="btn-submit" type="submit">Create Permission</button>
+          <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block" name="btn-submit" type="submit">Create Permission</button>
+          </div>
+          @if(!$errors->isEmpty())
+          <div class="form-group">
+            <div class="alert alert-danger">
+              @foreach($errors->all() as $error)
+                <p>{{$error}}</p>
+              @endforeach
+            </div>
+          </div>
+          @endif
+
+
         </fieldset>
 
       </form>

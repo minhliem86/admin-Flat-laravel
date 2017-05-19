@@ -13,17 +13,29 @@ use Validator;
 class RoleController extends Controller
 {
     public function createRole(Request $request){
-      if($request->has('btn-submit')){
-        $role_id = $request->input('role_id');
-        $permission_id = $request->input('permission_id');
+      $list_role = Role::lists('name', 'id')->all();
+      $list_per = Permission::lists('name', 'id')->all();
+      return view('Admin::auth.role', compact('list_role', 'list_per'));
+    }
 
-        $role = Role::find($role_id);
-        $permission = Permission::find($id);
-        $role->attachPermission($permission);
-
-        return redirect()->url('login');
+    public function postCreateRole(Request $request)
+    {
+      $rule = [
+        'role_id' => 'required',
+        'permission_id' => 'required',
+      ];
+      $valid = Validator::make($request->all(), $rule);
+      if($valid->fails()){
+        return redirect()->back()->withErrors($valid->errors())->withInput();
       }
-      return view('Admin::auth.role');
+      $role_id = $request->input('role_id');
+      $permission_id = $request->input('permission_id');
+
+      $role = Role::find($role_id);
+      $permission = Permission::find($permission_id);
+      $role->attachPermission($permission);
+
+      return redirect('login');
     }
 
     public function postAjaxRole(Request $request)
@@ -43,7 +55,10 @@ class RoleController extends Controller
         $role->display_name = \LP_lib::unicodenospace($request->name);
         $role->description = $request->description;
         $role->save();
-        return response()->json(['error' => false, 'rs' => 'Role created !'], 200);
+        $list_role = $role->lists('name', 'id')->all();
+        $view = view('Admin::ajax.ajaxRole', compact('list_role'))->render();
+
+        return response()->json(['error' => false, 'rs' => 'Role created !', 'role' => $view], 200);
       }
     }
 
@@ -52,21 +67,22 @@ class RoleController extends Controller
       if(!$request->ajax()){
         abort(404);
       }else{
+        $rule = [
+          'name' => 'unique:permissions,name'
+        ];
+        $valid = Validator::make($request->all(), $rule);
+        if($valid->fails()){
+            return response()->json(['error' =>true, 'rs' => $valid->errors() ], 200);
+        }
         $permission = new Permission;
         $permission->name = $request->name;
         $permission->display_name = \LP_lib::unicodenospace($request->name);
         $permission->description = $request->description;
         $permission->save();
-        return response()->json(['error' => false, 'rs' => $permission], 200);
+        $list_per = $permission->lists('name', 'id')->all();
+        $view = view('Admin::ajax.ajaxPermission', compact('list_per'))->render();
+        return response()->json(['error' => false, 'rs' => 'Permission created !', 'per' => $view], 200);
       }
     }
 
-    public function checkExist($input, $rule)
-    {
-      $valid = Validator::make($input, $rule);
-      if($valid->fails()){
-        return $data = ['error' => true, 'valid' =>$valid->errors()];
-      }
-      return $data = ['error' => false, 'valid' =>false];
-    }
 }
