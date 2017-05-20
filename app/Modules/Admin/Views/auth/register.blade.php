@@ -27,7 +27,7 @@
   </head>
   <body>
     <div class="container">
-      <form class="form-signin" role="form" action="{{url('register')}}" method="POST">
+      <form class="form-signin" role="form" action="{{url('/admin/register')}}" method="POST">
         {{Form::token()}}
         <h3 class="form-signin-heading">Register New User</h3>
         <div class="form-group">
@@ -63,8 +63,17 @@
             <input type="password" class="form-control" name="confirmation_password" id="confirmation_password" placeholder="Password Confirmation" autocomplete="off" />
           </div>
         </div>
+        <div class="form-group">
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        </div>
+        @if($errors->any())
+          <div class="alert alert-danger">
+            @foreach($errors->all as $error)
+            <p>{{$error}}</p>
+            @endforeach
+          </div>
+        @endif
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
       </form>
 
     </div>

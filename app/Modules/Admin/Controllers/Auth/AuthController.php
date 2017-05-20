@@ -3,6 +3,9 @@ namespace App\Modules\Admin\Controllers\Auth;
 
 use App\Admin;
 use Validator;
+use Auth;
+use Role;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
@@ -29,6 +32,8 @@ class AuthController extends Controller
      */
     protected $redirectTo = '/';
 
+    protected $redirectPath = '/admin/dashboard';
+
     /**
      * Create a new authentication controller instance.
      *
@@ -36,7 +41,8 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware('guest.admin', ['except' => 'logout']);
+        $this->auth = Auth::guard('web');
     }
 
     /**
@@ -76,5 +82,28 @@ class AuthController extends Controller
     // Register
     public function showRegistrationForm(){
       return view('Admin::auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+        $user = $this->create($request->all());
+        $role = Role::findOrFail(1);
+        $user->attachRole($role);
+
+        $this->auth->login($user);
+
+        return redirect($this->redirectPath());
+    }
+    public function logout()
+    {
+      $this->auth->logout();
+      return redirect('/admin/login');
     }
 }
