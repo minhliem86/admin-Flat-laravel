@@ -1,10 +1,10 @@
 <?php
 namespace App\Modules\Admin\Controllers\Auth;
 
-use App\Admin;
+use App\Models\User;
 use Validator;
 use Auth;
-use Role;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -68,7 +68,7 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return Admin::create([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),

@@ -27,55 +27,32 @@
   </head>
   <body>
     <div class="container">
-      <form class="form-signin" role="form" action="{{url('/admin/register')}}" method="POST">
+      <form class="form-signin" role="form" action="{{url('/admin/password/email')}}" method="POST">
         {{Form::token()}}
-        <h3 class="form-signin-heading">Register New User</h3>
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="glyphicon glyphicon-user"></i>
-            </div>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Full Name" autocomplete="off" value="{{old('name')}}" />
-          </div>
-        </div>
+        <h3 class="form-signin-heading">Please enter your email</h3>
         <div class="form-group">
           <div class="input-group">
             <div class="input-group-addon">
               <i class="glyphicon glyphicon-envelope"></i>
             </div>
-            <input type="email" class="form-control" name="email" id="email" placeholder="Email" autocomplete="off" value="{{old('email')}}" />
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class=" glyphicon glyphicon-lock "></i>
-            </div>
-            <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" />
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email" autocomplete="off" />
           </div>
         </div>
         <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class=" glyphicon glyphicon-lock "></i>
-            </div>
-            <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Password Confirmation" autocomplete="off" />
-          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Send me reset code</button>
         </div>
-        <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-        </div>
-        @if($errors->any())
-          <div class="alert alert-danger">
-            @foreach($errors->all() as $error)
-            <p>{{$error}}</p>
-            @endforeach
+        <a href="{{url('/admin/login')}}" class="btn-block text-right">Login page</a>
+        @if(Session::has('status'))
+          <div class="alert alert-success">
+            <p>{{Session::get('status')}}</p>
           </div>
         @endif
-
+        @if ($errors->has('email'))
+          <div class="alert alert-danger">
+            <p>{{ $errors->first('email') }}</p>
+          </div>
+        @endif
       </form>
-
     </div>
   </body>
 </html>

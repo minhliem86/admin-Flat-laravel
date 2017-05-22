@@ -96,9 +96,9 @@ return [
     */
 
     'passwords' => [
-        'admins' => [
+        'users' => [
             'provider' => 'users',
-            'email' => 'auth.emails.password',
+            'email' => 'Admin::auth.email.reset_password',
             'table' => 'password_resets',
             'expire' => 60,
         ],

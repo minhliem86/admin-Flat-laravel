@@ -27,7 +27,7 @@
   </head>
   <body>
     <div class="container">
-      <form class="form-signin" role="form" action="{{url('login')}}" method="POST">
+      <form class="form-signin" role="form" action="{{url('/admin/login')}}" method="POST">
         {{Form::token()}}
         <h3 class="form-signin-heading">Please sign in</h3>
         <div class="form-group">
@@ -47,8 +47,12 @@
             <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" />
           </div>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <div class="form-group">
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </div>
+        <a href="{{url('/admin/password/reset')}}" class="btn-block text-right">Forget your password?</a>
       </form>
+
 
     </div>
   </body>

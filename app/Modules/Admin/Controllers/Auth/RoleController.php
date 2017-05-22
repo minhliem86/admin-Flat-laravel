@@ -35,7 +35,7 @@ class RoleController extends Controller
       $permission = Permission::find($permission_id);
       $role->attachPermission($permission);
 
-      return redirect('login');
+      return redirect('/admin/login');
     }
 
     public function postAjaxRole(Request $request)

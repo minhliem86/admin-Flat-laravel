@@ -19,12 +19,11 @@ class CheckCanLoginMiddleware
      }
     public function handle($request, Closure $next)
     {
-      if(!$this->auth->check() && !$this->auth->can('login')){
-        if($this->auth->check()){
+        if(!$this->auth->check()) return redirect('/admin/login')->withErrors('You have to login firsrt.');
+        if(!$this->auth->user()->can('login')){
             $this->auth->logout();
+            return redirect('login')->withErrors('You have to login firsrt.');
         }
-        return redirect('login')->withErrors('You have to login firsrt.');
-      }
-      return $next($request);
+        return $next($request);
     }
 }

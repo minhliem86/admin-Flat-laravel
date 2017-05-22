@@ -7,7 +7,9 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Authenticatable
 {
-    use EntrustUserTrait
+    use EntrustUserTrait;
+
+    public $table = "users";
     /**
      * The attributes that are mass assignable.
      *

@@ -27,26 +27,18 @@
   </head>
   <body>
     <div class="container">
-      <form class="form-signin" role="form" action="{{url('/admin/register')}}" method="POST">
+      <form class="form-signin" role="form" action="{{url('/admin/password/email')}}" method="POST">
         {{Form::token()}}
-        <h3 class="form-signin-heading">Register New User</h3>
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-addon">
-              <i class="glyphicon glyphicon-user"></i>
-            </div>
-            <input type="text" class="form-control" name="name" id="name" placeholder="Full Name" autocomplete="off" value="{{old('name')}}" />
-          </div>
-        </div>
+        {{Form::hidden('token',$token)}}
+        <h3 class="form-signin-heading">Enter you new password</h3>
         <div class="form-group">
           <div class="input-group">
             <div class="input-group-addon">
               <i class="glyphicon glyphicon-envelope"></i>
             </div>
-            <input type="email" class="form-control" name="email" id="email" placeholder="Email" autocomplete="off" value="{{old('email')}}" />
+            <input type="email" class="form-control" name="email" id="email" placeholder="Email" autocomplete="off" value="{{$email}}" />
           </div>
         </div>
-
         <div class="form-group">
           <div class="input-group">
             <div class="input-group-addon">
@@ -64,18 +56,19 @@
           </div>
         </div>
         <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Reset Password</button>
         </div>
-        @if($errors->any())
-          <div class="alert alert-danger">
-            @foreach($errors->all() as $error)
-            <p>{{$error}}</p>
-            @endforeach
+        @if(Session::has('status'))
+          <div class="alert alert-success">
+            <p>{{Session::get('status')}}</p>
           </div>
         @endif
-
+        @if ($errors->has('email'))
+          <div class="alert alert-danger">
+            <p>{{ $errors->first('email') }}</p>
+          </div>
+        @endif
       </form>
-
     </div>
   </body>
 </html>
