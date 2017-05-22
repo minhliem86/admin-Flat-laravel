@@ -27,7 +27,7 @@
   </head>
   <body>
     <div class="container">
-      <form class="form-signin" role="form" action="{{url('/admin/password/email')}}" method="POST">
+      <form class="form-signin" role="form" action="{{url('/admin/password/reset')}}" method="POST">
         {{Form::token()}}
         {{Form::hidden('token',$token)}}
         <h3 class="form-signin-heading">Enter you new password</h3>
@@ -63,9 +63,11 @@
             <p>{{Session::get('status')}}</p>
           </div>
         @endif
-        @if ($errors->has('email'))
+        @if ($errors->any())
           <div class="alert alert-danger">
-            <p>{{ $errors->first('email') }}</p>
+            @foreach($errors->all() as $error)
+            <p>{{ $error }}</p>
+            @endforeach
           </div>
         @endif
       </form>

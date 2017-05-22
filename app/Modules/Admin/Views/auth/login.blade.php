@@ -50,6 +50,18 @@
         <div class="form-group">
           <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         </div>
+        @if($errors->any())
+
+            <div class="alert alert-danger">
+              @foreach ($errors->all() as $error)
+                <p>{{$error}}</p>
+              @endforeach
+            </div>
+
+        @endif
+        <div class="form-group">
+
+        </div>
         <a href="{{url('/admin/password/reset')}}" class="btn-block text-right">Forget your password?</a>
       </form>
 

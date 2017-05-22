@@ -26,6 +26,7 @@ class PasswordController extends Controller
      * @return void
      */
     protected $resetView = "Admin::auth.reset.reset";
+    public $redirectPath = 'admin/login';
     public function __construct()
     {
         $this->middleware('guest');
