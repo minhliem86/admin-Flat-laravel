@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Project;
+use Faker\Generatior as Faker;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -11,11 +13,19 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->name,
-        'email' => $faker->safeEmail,
-        'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
-    ];
+// $factory->define(App\User::class, function (Faker\Generator $faker) {
+//     return [
+//         'name' => $faker->name,
+//         'email' => $faker->safeEmail,
+//         'password' => bcrypt(str_random(10)),
+//         'remember_token' => str_random(10),
+//     ];
+// });
+
+$factory->define(Project, function(Faker $faker){
+  return[
+    'video_id' => str_random(6),
+    'title' => $faker->sentence(),
+    'description' => $faker->paragraph(),                                             
+  ];
 });
