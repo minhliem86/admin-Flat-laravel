@@ -22,10 +22,11 @@ use Faker\Generatior as Faker;
 //     ];
 // });
 
+/*DEFINE PROJECT*/
 $factory->define(Project, function(Faker $faker){
   return[
     'video_id' => str_random(6),
     'title' => $faker->sentence(),
-    'description' => $faker->paragraph(),                                             
+    'description' => $faker->paragraph(),
   ];
 });
