@@ -26,6 +26,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Modules\Admin\Controllers
       Route::get('/dashboard', function(){
         return view('Admin::pages.index');
       });
+    //   PROJECT
+    Route::post('/project/deleteAll', ['as' => 'admin.delAllProject', 'uses' => 'ProjectController@deleteAll'  ]);
+    Route::resource('/project', 'ProjectController');
+
     });
   });
 

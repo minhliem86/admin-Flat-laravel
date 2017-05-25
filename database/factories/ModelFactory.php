@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Project;
-use Faker\Generatior as Faker;
+use Faker\Generator as Faker;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -22,10 +22,10 @@ use Faker\Generatior as Faker;
 //     ];
 // });
 
-$factory->define(Project, function(Faker $faker){
-  return[
+$factory->define(Project::class, function(Faker  $faker){
+  return [
     'video_id' => str_random(6),
     'title' => $faker->sentence(),
-    'description' => $faker->paragraph(),                                             
+    'description' => $faker->paragraph(),
   ];
 });

@@ -9,7 +9,7 @@
     <link rel="bookmark" href="favicon_16.ico"/>
     <!-- site css -->
     <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/css/site.min.css">
-    <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/css/customize.css">
+    <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/css/customize.min.css">
     <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/js/scroll/jquery.mCustomScrollbar.min.css">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css">
     <!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'> -->
@@ -23,7 +23,10 @@
     <script type="text/javascript" src="{{asset('/public/assets/admin')}}/dist/js/scroll/jquery.mCustomScrollbar.min.js"></script>
     <script>
       $(document).ready(function(){
-        $('.panel-body').mCustomScrollbar()
+        $('.panel-body').mCustomScrollbar({
+            autoHideScrollbar: true,
+            scrollbarPosition: 'outside',
+        })
       })
     </script>
   </head>
@@ -40,13 +43,12 @@
             <div class="panel-heading">
               <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-10 col-sm-9">
+                  <div class="col-md-8 col-sm-7">
                     <h3 class="panel-title"><a href="javascript:void(0);" class="toggle-sidebar"><span class="fa fa-angle-double-left" data-toggle="offcanvas" title="Maximize Panel"></span></a> @yield('title','Panel Title')</h3>
                   </div>
-                  <div class="col-md-2 col-sm-3" >
-                    <div class="right-control-panel">
+                  <div class="col-md-4 col-sm-5" >
+                    <div class="right-control-panel text-right">
                         @yield('link')
-                        
                     </div>
                   </div>
                 </div>
@@ -60,5 +62,6 @@
       </div>
     </div>
   @include('Admin::layouts.footer')
+  @yield('script')
   </body>
 </html>
