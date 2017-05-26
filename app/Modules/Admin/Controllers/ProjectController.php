@@ -34,7 +34,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return view('Admin::pages.project.create');
     }
 
     /**
@@ -45,7 +45,9 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            
+        ]
     }
 
     /**
