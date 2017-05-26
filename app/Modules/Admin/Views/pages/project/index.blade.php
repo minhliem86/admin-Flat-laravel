@@ -6,54 +6,44 @@
 @stop
 
 @section('content')
+    @if(Session::has('error'))
     <div class="alert alert-danger alert-dismissable">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <strong>Warning!</strong> Best check yo self, you're not looking too good.
+      <p>{{Session::get('error')}}</p>
     </div>
+    @endif
+    @if(Session::has('success'))
+    <div class="alert alert-success alert-dismissable">
+      <p>{{Session::get('success')}}</p>
+    </div>
+    @endif
     <div class="row">
       <div class="col-sm-12">
          @if(!$inst->isEmpty())
         <table class="table table-hover">
           <thead>
             <tr>
-            @foreach($inst as $value)
-              <th>{{dd(array_keys($value->))}}</th>
-              <th>First Name</th>
-              <th><i class="glyphicon glyphicon-search"></i> Last Name</th>
-              <th>Username</th>
-                @endforeach
+              <th>ID</th>
+              <th><i class="glyphicon glyphicon-search"></i> Title</th>
+              <th>Video ID</th>
               <th>&nbsp;</th>
             </tr>
           </thead>
           <tbody>
+            @foreach($inst as $item)
             <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Liem</td>
-              <td>@mdo</td>
+              <td>{{$item->id}}</td>
+              <td>{{$item->title}}</td>
+              <td>{{$item->video_id}}</td>
               <td align="right">
-                <a href="" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> EDIT</a>
+                <a href="{{route('admin.project.edit', $item->id)}}" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> EDIT</a>
                 <span class="inline-block-span">
-                  <Form action="" method="DELETE">
-                    <button class="btn  btn-danger btn-xs remove-btn" type="button" attrid="" onclick="confirm_remove(this);"><i class="glyphicon glyphicon-remove"></i> REMOVE</button>
+                  <Form action="{{route('admin.project.destroy', $item->id)}}" method="DELETE">
+                    <button class="btn  btn-danger btn-xs remove-btn" type="button" attrid="{{$item->id}}" onclick="confirm_remove(this);"><i class="glyphicon glyphicon-remove"></i> REMOVE</button>
                   </Form>
                 </span>
               </td>
             </tr>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-              <td align="right">
-                <a href="" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> EDIT</a>
-                <span class="inline-block-span">
-                  <Form action="" method="DELETE">
-                    <button class="btn  btn-danger btn-xs remove-btn" type="button" attrid="" onclick="confirm_remove(this);"><i class="glyphicon glyphicon-remove"></i> REMOVE</button>
-                  </Form>
-                </span>
-              </td>
-            </tr>
+            @endforeach
           </tbody>
         </table>
         @else
@@ -65,7 +55,6 @@
 
 @section('script')
     <script type="text/javascript" src="{{asset('/public/assets/admin')}}/bootflat-admin/js/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript" src="{{asset('/public/assets/admin')}}/dist/js/site.min.js"></script>
     <script type="text/javascript" src="{{asset('/public/assets/admin')}}/dist/js/scroll/jquery.mCustomScrollbar.min.js"></script>
     <!-- DATA TABLE -->
     <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/js/plugins/datatables/jquery.dataTables.min.css">
@@ -75,12 +64,9 @@
     <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/js/plugins/alertify/alertify.css">
     <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/js/plugins/alertify/bootstrap.min.css">
     <script type="text/javascript" src="{{asset('/public/assets/admin')}}/dist/js/plugins/alertify/alertify.js"></script>
-
-    <script src="{{asset('/public/assets/admin')}}/dist/js/script.js"></script>
-
     <script>
       $(document).ready(function(){
-
+        hideAlert('.alert');
         // REMOVE ALL
         var table = $('table').DataTable({
           'ordering': false,
@@ -95,10 +81,8 @@
 
         // SEARCH TAB
         $('input[type="search"]').on('keyup', function(){
-          table.columns(2).search(this.value).draw();
+          table.columns(1).search(this.value).draw();
         })
-
-
         $('#btn-remove-all').click( function () {
           var data = [];
           table.rows('.selected').data().each(function(index, e){
@@ -130,6 +114,12 @@
                   a.parentElement.submit();
               }
           });
+      }
+
+      function hideAlert(a){
+          setTimeout(function(){
+              $(a).fadeOut();
+          },2000)
       }
     </script>
 @stop
