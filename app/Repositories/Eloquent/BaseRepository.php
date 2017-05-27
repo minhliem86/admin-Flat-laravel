@@ -119,7 +119,7 @@ public function findWhereIn( $field, array $values, $columns = array('*'))
      try {
         $result =  $this->model->findOrFail($id);
         $result->update($attributes);
-        return true;
+        return $result;
     } catch (ModelNotFoundException $e) {
         return false;
     }
@@ -154,5 +154,19 @@ public function findWhereIn( $field, array $values, $columns = array('*'))
      return true;
  }
 
+ /**
+ * GET ORDER
+ **/
+public function getOrder()
+{
+  try {
+    $inst = $this->model->orderBy('id','DESC')->firstOrFail();
+    return $inst->order;
+  } catch (ModelNotFoundException $e) {
+    return 1;
+  }
+
+
+}
 
 }

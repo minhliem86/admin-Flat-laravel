@@ -24,7 +24,6 @@
     <script>
       $(document).ready(function(){
         $('.panel-body').mCustomScrollbar({
-            autoHideScrollbar: true,
             scrollbarPosition: 'outside',
         })
       })

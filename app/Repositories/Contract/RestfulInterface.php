@@ -23,4 +23,6 @@ interface RestfulInterface{
 
   public function deleteAll($dataID);
 
+  public function getOrder();
+
 }

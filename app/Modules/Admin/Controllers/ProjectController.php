@@ -45,9 +45,16 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $order = $this->projectRepo->getOrder();
         $data = [
-            
-        ]
+          'video_id' => $request->input('video_id'),
+          'title' => $request->input('title'),
+          'description' => $request->input('description'),
+          'description' => $request->input('description'),
+          'order' => $order,
+        ];
+        $this->projectRepo->create($data);
+        return view('Admin::pages.project.index')->with('success','Create Successful.');
     }
 
     /**
@@ -69,7 +76,8 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        $inst = $this->projectRepo->find($id);
+        return view('Admin::pages.project.edit', compact('inst'));
     }
 
     /**
@@ -81,7 +89,18 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $data = [
+        'video_id' => $request->input('video_id'),
+        'title' => $request->input('title'),
+        'description' => $request->input('description'),
+        'description' => $request->input('description'),
+        'order' => $request->input('order'),
+        'status' => $request->input('status'),
+      ];
+      if($this->projectRepo->update($data, $id)){
+        return view('Admin::pages.project.index')->with('success', 'Update Successful.');
+      }
+        return view('Admin::pages.project.index')->with('error', 'Update Fail.');
     }
 
     /**
@@ -92,6 +111,9 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if($this->projectRepo->delete($id)){
+          return redirect()->back()->with('success', 'Delete Successful.');
+        }
+          return redirect()->back()->with('success', 'Delete Fail.');
     }
 }
