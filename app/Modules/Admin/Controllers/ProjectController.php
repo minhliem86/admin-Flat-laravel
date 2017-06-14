@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\ProjectRepository;
+use App\Repositories\Eloquent\CommonRepository;
 
 class ProjectController extends Controller
 {
@@ -43,18 +44,19 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, CommonRepository $common)
     {
         $order = $this->projectRepo->getOrder();
+        $img_url = $common->getPath($request->input('img_url'));
         $data = [
           'video_id' => $request->input('video_id'),
           'title' => $request->input('title'),
           'description' => $request->input('description'),
-          'description' => $request->input('description'),
+          'img_url' => $img_url,
           'order' => $order,
         ];
         $this->projectRepo->create($data);
-        return view('Admin::pages.project.index')->with('success','Create Successful.');
+        return redirect()->route('admin.project.index')->with('success','Create Successful.');
     }
 
     /**
@@ -87,20 +89,23 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,CommonRepository $common,  $id)
     {
-      $data = [
-        'video_id' => $request->input('video_id'),
-        'title' => $request->input('title'),
-        'description' => $request->input('description'),
-        'description' => $request->input('description'),
-        'order' => $request->input('order'),
-        'status' => $request->input('status'),
-      ];
-      if($this->projectRepo->update($data, $id)){
-        return view('Admin::pages.project.index')->with('success', 'Update Successful.');
-      }
-        return view('Admin::pages.project.index')->with('error', 'Update Fail.');
+        $status =  $request->has('status') ? 1 : 0 ;
+        $img_bk = $this->projectRepo->find($id)->img_url;
+        $img_url = $request->input('img_url') != $img_bk ? $common->getPath($request->input('img_url')) : $img_bk ;
+        $data = [
+            'video_id' => $request->input('video_id'),
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'img_url' => $img_url,
+            'order' => $request->input('order'),
+            'status' => $status,
+        ];
+        if($this->projectRepo->update($data, $id)){
+            return redirect()->route('admin.project.index')->with('success', 'Update Successful.');
+        }
+            return redirect()->route('admin.project.index')->with('error', 'Update Fail.');
     }
 
     /**

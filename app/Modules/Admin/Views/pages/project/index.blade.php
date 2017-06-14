@@ -37,9 +37,9 @@
               <td align="right">
                 <a href="{{route('admin.project.edit', $item->id)}}" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> EDIT</a>
                 <span class="inline-block-span">
-                  <Form action="{{route('admin.project.destroy', $item->id)}}" method="DELETE">
+                     {{Form::open(['route'=>['admin.project.destroy',$item->id],'method'=> "delete" ])}}
                     <button class="btn  btn-danger btn-xs remove-btn" type="button" attrid="{{$item->id}}" onclick="confirm_remove(this);"><i class="glyphicon glyphicon-remove"></i> REMOVE</button>
-                  </Form>
+                    {{Form::close()}}
                 </span>
               </td>
             </tr>
@@ -70,7 +70,7 @@
         // REMOVE ALL
         var table = $('table').DataTable({
           'ordering': false,
-          "bLengthChange": false,
+          "bLengthChange": true,
           "bFilter" : false,
           "searching": true
         });

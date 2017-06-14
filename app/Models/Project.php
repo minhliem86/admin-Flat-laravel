@@ -8,5 +8,5 @@ class Project extends Model
 {
     public $table = 'projects';
 
-    protected $fillable = ['video_id', 'title', 'description', 'status', 'oreder'];
+    protected $fillable = ['video_id', 'title', 'description', 'status', 'order','img_url'];
 }

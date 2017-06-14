@@ -6,13 +6,12 @@ return [
     | Routing
     |--------------------------------------------------------------------------
     */
-
     // Include to pre-defined routes from package or not. Middlewares
     'use_package_routes' => true,
 
     // Middlewares which should be applied to all package routes.
     // For laravel 5.1 and before, remove 'web' from the array.
-    'middlewares' => ['web'],
+    'middlewares' => ['web','can_login'],
 
     // The url to this package. Change it if necessary.
     'prefix' => 'laravel-filemanager',
@@ -26,7 +25,7 @@ return [
     // If true, private folders will be created for each signed-in user.
     'allow_multi_user' => true,
     // If true, share folder will be created when allow_multi_user is true.
-    'allow_share_folder' => true,
+    'allow_share_folder' => false,
 
     // Flexibla way to customize client folders accessibility
     // Ex: The private folder of user will be named as the user id.

@@ -1,7 +1,7 @@
 @extends('Admin::layouts.main-layout')
 
 @section('link')
-    {{Html::link(route('admin.project.store'),'Save',['class'=>'btn btn-primary'])}}
+    <button class="btn btn-primary" onclick="submitForm();">Save</button>
 @stop
 
 @section('title','Create Project')
@@ -9,7 +9,7 @@
 @section('content')
     <div class="row">
       <div class="col-sm-12">
-        <form novalidate="" id="form" role="form" class="form-horizontal">
+        <form method="POST" action="{{route('admin.project.store')}}" id="form" role="form" class="form-horizontal">
           {{Form::token()}}
           <div class="form-group">
             <label class="col-md-2 control-label">Title</label>
@@ -26,25 +26,40 @@
           <div class="form-group">
             <label class="col-md-2 control-label" for="description">Description</label>
             <div class="col-md-10">
-              <textarea required="" class="form-control my-editor" placeholder="Description" rows="10" id="description" name="description"></textarea>
+              <textarea required="" class="form-control my-editor" placeholder="Description" rows="15" id="description" name="description"></textarea>
             </div>
           </div>
-
-
+          <div class="form-group">
+            <label class="col-md-2 control-label">Image:</label>
+            <div class="col-md-10">
+                <div class="input-group">
+                 <span class="input-group-btn">
+                   <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+                     <i class="fa fa-picture-o"></i> Choose
+                   </a>
+                 </span>
+                 <input id="thumbnail" class="form-control" type="hidden" name="img_url">
+                </div>
+                <img id="holder" style="margin-top:15px;max-height:100px;">
+            </div>
+          </div>
         </form>
       </div>
     </div>
 @endsection
 
 @section('script')
-<script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
-<script>
-  var options = {
-    filebrowserImageBrowseUrl: '{{asset('/')}}laravel-filemanager?type=Images',
-    filebrowserImageUploadUrl: '{{asset('/')}}/laravel-filemanager/upload?type=Images&_token=',
-    filebrowserBrowseUrl: '{{asset('/')}}/laravel-filemanager?type=Files',
-    filebrowserUploadUrl: '{{asset('/')}}/laravel-filemanager/upload?type=Files&_token='
-  };
-  CKEDITOR.replace('description', options);
-</script>
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script src="{{asset('public')}}/vendor/laravel-filemanager/js/lfm.js"></script>
+    <script src="{{asset('public/assets/admin/dist/js/script.js')}}"></script>
+    <script>
+        const url = "{{url('/')}}"
+        init_tinymce(url);
+        // BUTTON ALONE
+        init_btnImage(url,'#lfm');
+        // SUBMIT FORM
+        function submitForm(){
+         $('form').submit();
+        }
+    </script>
 @stop

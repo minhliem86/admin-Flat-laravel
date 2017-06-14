@@ -25,6 +25,7 @@
       $(document).ready(function(){
         $('.panel-body').mCustomScrollbar({
             scrollbarPosition: 'outside',
+            scrollInertia: 250
         })
       })
     </script>

@@ -15,13 +15,6 @@ abstract class BaseRepository implements RestfulInterface{
 
   abstract public function getModel();
 
-  /**
- 	 * Get ALL with column
- 	 *
- 	 * @param type
- 	 * @return void
-	 */
-
   public function setModel()
   {
     return $this->model = app()->make($this->getModel() );
