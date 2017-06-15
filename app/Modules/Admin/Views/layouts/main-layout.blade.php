@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Bootflat-Admin Template</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="csrf-token" content="{{csrf_token()}}">
     <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
     <link rel="shortcut icon" href="favicon_16.ico"/>
     <link rel="bookmark" href="favicon_16.ico"/>
