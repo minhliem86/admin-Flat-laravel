@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Eloquent;
 
 use App\Events\PhotoWasDeleted;
 use App\Events\PhotoWasUploaded;
 use Intervention\Image\ImageManager;
 use App\Models\Photo;
-use App\Models\Album;
 use Event;
 
 class UploadRepository
@@ -17,9 +16,9 @@ class UploadRepository
      * @param $input
      * @return mixed
      */
-    protected $image;
-    public function __construct(Photo $image){
-      $this->image = $image;
+    protected $photo;
+    public function __construct(Photo $photo){
+      $this->photo = $photo;
     }
     public function upload($input)
     {
@@ -34,20 +33,18 @@ class UploadRepository
         }
 
         $photo = $input['file'];
-
         $original_name = $photo->getClientOriginalName();
         $extension = $photo->getClientOriginalExtension();
         $original_name_without_extension = substr($original_name, 0, strlen($original_name) - strlen($extension) - 1);
 
         $filename = $this->sanitize($original_name_without_extension);
         $allowed_filename = $this->createUniqueFilename( $filename );
-
         $filename_with_extension = $allowed_filename .'.' . $extension;
 
         $manager = new ImageManager();
-        $image = $manager->make( $photo )->resize(1200, 630)->save(config('dropzoner.upload-path') . $filename_with_extension );
+        $image = $manager->make( $photo )->save(config('dropzoner.upload-path') . $filename_with_extension );
 
-        $img_thumb = $manager->make( $photo )->resize(400, 210)->save(config('dropzoner.thumb-path'). $filename_with_extension );
+        // $img_thumb = $manager->make( $photo )->resize(400, 210)->save(config('dropzoner.thumb-path'). $filename_with_extension );
 
         if( !$image ) {
             return response()->json([
@@ -62,9 +59,9 @@ class UploadRepository
         $current = $this->getOrder();
         $data = [
           'title' => $input['text_title'],
-          'album_id' => $input['album_id'],
+        //   'album_id' => $input['album_id'],
           'img_url' =>  asset(config('dropzoner.upload-path').$filename_with_extension),
-          'thumbnail_url' =>  asset(config('dropzoner.thumb-path').$filename_with_extension),
+        //   'thumbnail_url' =>  asset(config('dropzoner.thumb-path').$filename_with_extension),
           'order' => $current,
           'filename' => $filename_with_extension,
         ];
@@ -171,54 +168,13 @@ class UploadRepository
             $clean;
     }
 
-    public function getAll(){
-      return $this->image->with('albums')->select('title', 'img_url', 'status', 'id', 'album_id')->orderBy('id','DESC')->get();
-    }
-
-    public function getFindID($id){
-      return $this->image->find($id);
-    }
-
-    public function postUpdate($id,$data){
-      return $this->image->where('id',$id)->update($data);
-    }
-
-    public function postCreate($data){
-      return $this->image->create($data);
-    }
-
-    public function deleteImg($id){
-      $this->image->destroy($id);
-    }
-
     public function getOrder(){
-      $order = $this->image->orderBy('order','DESC')->first();
+      $order = $this->photo->orderBy('order','DESC')->first();
       count($order) == 0 ?  $current = 1 :  $current = $order->order +1 ;
       return $current;
     }
 
-    public function getListAlbum(){
-      return Album::lists('title','id');
-    }
-
     public function getNameImg($id){
-      return $this->image->find($id)->filename;
+      return $this->photo->find($id)->filename;
     }
-
-    /*FRONTEND*/
-    public function getImgFromAlbum($id_album)
-    {
-      return $this->image->where('album_id', $id_album)->paginate(4);
-    }
-
-    public function getImgAjaxFromAlbum($id, $id_album)
-    {
-      $img =  $this->image->where('album_id',$id_album)->where('id',$id)->first();
-      if(count($img)){
-        return $img;
-      }else{
-        return false;
-      }
-    }
-
 }

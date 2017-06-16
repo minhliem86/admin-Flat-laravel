@@ -13,10 +13,12 @@ class DatabaseSeeder extends Seeder
 
      protected $tables = [
        'projects',
+       'photos'
      ];
 
      protected $seeders = [
-       ProjectSeeder::class
+       ProjectSeeder::class,
+       PhotoSeeder::class,
      ];
 
      private function truncateDatabase()

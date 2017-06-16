@@ -22,10 +22,18 @@ use Faker\Generator as Faker;
 //     ];
 // });
 
-$factory->define(Project::class, function(Faker  $faker){
+$factory->define(App\Models\Project::class, function(Faker  $faker){
   return [
     'video_id' => str_random(6),
     'title' => $faker->sentence(),
     'description' => $faker->paragraph(),
   ];
+});
+
+$factory->define(App\Models\Photo::class, function(Faker $faker){
+    return [
+        'title' => $faker->sentence(),
+        'img_url' => $faker->imageUrl(300,300,'cats'),
+        'filename' => $faker->word().'.jpg',
+    ];
 });

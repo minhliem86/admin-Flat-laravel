@@ -11,6 +11,7 @@
     <!-- site css -->
     <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/css/site.min.css">
     <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/css/customize.min.css">
+    @yield('css')
     <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/js/scroll/jquery.mCustomScrollbar.min.css">
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,800,700,400italic,600italic,700italic,800italic,300italic" rel="stylesheet" type="text/css">
     <!-- <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'> -->
@@ -25,7 +26,7 @@
     <script>
       $(document).ready(function(){
         $('.panel-body').mCustomScrollbar({
-            scrollbarPosition: 'outside',
+            // scrollbarPosition: 'outside',
             scrollInertia: 250
         })
       })

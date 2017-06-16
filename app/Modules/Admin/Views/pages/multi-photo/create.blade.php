@@ -66,7 +66,7 @@
     <div class="col-sm-12">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-7" id="action">
+          <div class="col-lg-7" id="actions">
             <!-- The fileinput-button span is used to style the file input field as button -->
             <span class="btn btn-success fileinput-button dz-clickable">
                 <i class="glyphicon glyphicon-plus"></i>
@@ -76,7 +76,7 @@
                 <i class="glyphicon glyphicon-upload"></i>
                 <span>Start upload</span>
             </button>
-            <button type="reset" class="btn btn-warning cancel">
+            <button type="reset" class="btn btn-danger cancel">
                 <i class="glyphicon glyphicon-ban-circle"></i>
                 <span>Cancel upload</span>
             </button>
@@ -86,24 +86,24 @@
         <div class="table table-striped" class="files" id="previews">
           <div id="template" class="file-row">
             <!-- This is used as the file preview template -->
-            <div>
+            <div class="file-row">
                 <span class="preview">
                   <img data-dz-thumbnail />
                   <div class="title form-group" style="margin-top:10px"></div>
                   <div class="description form-group"></div>
                 </span>
             </div>
-            <div>
+            <div class="file-row">
                 <p class="name" data-dz-name></p>
                 <strong class="error text-danger" data-dz-errormessage></strong>
             </div>
-            <div>
+            <div class="file-row">
                 <p class="size" data-dz-size></p>
                 <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                   <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
                 </div>
             </div>
-            <div>
+            <div class="file-row">
               <button data-dz-remove class="btn btn-warning cancel">
                   <i class="glyphicon glyphicon-ban-circle"></i>
                   <span>Cancel</span>
@@ -121,8 +121,8 @@
 @stop
 
 @section('script')
-  <link rel="stylesheet" href="<?php echo asset('public/assets/backend/js/dropzoner/dropzone.min.css'); ?>">
-  <script src="<?php echo asset('public/assets/backend/js/dropzoner/dropzone.min.js'); ?>"></script>
+  <link rel="stylesheet" href="<?php echo asset('public/assets/admin/dist/js/dropzone/dropzone.min.css'); ?>">
+  <script src="<?php echo asset('public/assets/admin/dist/js/dropzone/dropzone.min.js'); ?>"></script>
 
   <script>
     $(document).ready(function(){
@@ -134,7 +134,7 @@
 
       // DROPZONE
       var myDropzone = new Dropzone(document.body, { // Make the whole body a dropzone
-        url: "{!!route('admin.photo.postUpload')!!}", // Set the url
+        url: "{!!route('admin.photo.postCreate')!!}", // Set the url
         maxFilesize: 30,
         uploadMultiple: false,
         autoProcessQueue: false,
@@ -154,31 +154,22 @@
           var myDropzone = this;
 
           // ADD MORE TITLE TO IMAGE
-          /***
           myDropzone.on("addedfile",function(file){
             var uni_field_id = new Date().getTime();
-
             var title = file.title == undefined ? "" : file.title;
-            var description = file.description == undefined ? "" : file.description;
-
+            // var description = file.description == undefined ? "" : file.description;
             file._title = Dropzone.createElement('<input type="text" value="'+title+'" id="'+uni_field_id+'" name="title" placeholder="Title..." class="form-control" />');
              file.previewElement.querySelector('.title').appendChild(file._title);
           });
 
-          ***/
-
           // ADD MORE TITLE TO IMAGE WHEN SENDING
-          /***
           myDropzone.on("sending",function(file, xhr, formData){
               title = file.previewElement.querySelector("input[name='title'");
-              description = file.previewElement.querySelector("textarea[name='description'");
+            //   description = file.previewElement.querySelector("textarea[name='description'");
               formData.append("text_title",$(title).val());
-              formData.append("album_id",$('select[name="album_id"]').val());
-
+            //   formData.append("album_id",$('select[name="album_id"]').val());
               document.querySelector(".start").setAttribute("disabled", "disabled");
           });
-
-          ***/
 
           document.querySelector('.start').addEventListener("click", function(e){
             e.preventDefault();
@@ -189,7 +180,6 @@
           myDropzone.on("queuecomplete", function(progress) {
             document.querySelector(".progress").style.opacity = "0";
           });
-
         },
 
         success: function(file,response) {

@@ -1,7 +1,7 @@
 @extends('Admin::layouts.main-layout')
 
 @section('link')
-    {{Html::link(route('admin.project.create'),'Add New',['class'=>'btn btn-primary'])}}
+    {{Html::link(route('admin.photo.create'),'Add New',['class'=>'btn btn-primary'])}}
     <button type="button" class="btn btn-danger" id="btn-remove-all">Remove All Selected</button>
 @stop
 
@@ -22,7 +22,8 @@
 				<thead>
 					<tr>
 						<th>ID</th>
-						<th><i class="glyphicon glyphicon-search"></i> Image</th>
+						<th> Image</th>
+						<th><i class="glyphicon glyphicon-search"></i> Title</th>
 						<th>&nbsp;</th>
 					</tr>
 				</thead>
@@ -30,11 +31,12 @@
 					@foreach($inst as $item)
 					<tr>
 						<td>{{$item->id}}</td>
-						<td><img src="{{$item->img_url}}" width="200" alt=""></td>
+						<td><img src="{{$item->img_url}}" width="100" alt=""></td>
+						<td>{{$item->title}}</td>
 						<td align="right">
 							<a href="{{route('admin.project.edit', $item->id)}}" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> EDIT</a>
 							<span class="inline-block-span">
-									 {{Form::open(['route'=>['admin.project.destroy',$item->id],'method'=> "delete" ])}}
+									 {{Form::open(['route'=>['admin.photo.destroy',$item->id],'method'=> "delete" ])}}
 									<button class="btn  btn-danger btn-xs remove-btn" type="button" attrid="{{$item->id}}" onclick="confirm_remove(this);"><i class="glyphicon glyphicon-remove"></i> REMOVE</button>
 									{{Form::close()}}
 							</span>
@@ -73,7 +75,7 @@
 
 			// SEARCH TAB
 			$('input[type="search"]').on('keyup', function(){
-				table.columns(1).search(this.value).draw();
+				table.columns(2).search(this.value).draw();
 			})
 			$('#btn-remove-all').click( function () {
 				var data = [];
