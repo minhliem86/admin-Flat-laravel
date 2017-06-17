@@ -8,6 +8,8 @@ use Intervention\Image\ImageManager;
 use App\Models\Photo;
 use Event;
 
+use App\Repositories\Eloquent\CommonRepository;
+
 class UploadRepository
 {
     /**
@@ -17,8 +19,11 @@ class UploadRepository
      * @return mixed
      */
     protected $photo;
-    public function __construct(Photo $photo){
+    protected $common;
+    protected $_removePath = 'public/upload/';
+    public function __construct(CommonRepository $common, Photo $photo){
       $this->photo = $photo;
+      $this->common = $common;
     }
     public function upload($input)
     {
@@ -55,12 +60,12 @@ class UploadRepository
         }
 
         // Fire ImageWasUploaded Event
-
+        $img_url = $this->common->getPath(config('dropzoner.upload-path').$filename_with_extension, $this->_removePath);
         $current = $this->getOrder();
         $data = [
           'title' => $input['text_title'],
         //   'album_id' => $input['album_id'],
-          'img_url' =>  asset(config('dropzoner.upload-path').$filename_with_extension),
+          'img_url' =>  $img_url,
         //   'thumbnail_url' =>  asset(config('dropzoner.thumb-path').$filename_with_extension),
           'order' => $current,
           'filename' => $filename_with_extension,

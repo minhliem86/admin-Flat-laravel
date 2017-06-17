@@ -31,10 +31,10 @@
 					@foreach($inst as $item)
 					<tr>
 						<td>{{$item->id}}</td>
-						<td><img src="{{$item->img_url}}" width="100" alt=""></td>
+						<td><img src="{{asset('public/upload/').'/'.$item->img_url}}" width="100" alt=""></td>
 						<td>{{$item->title}}</td>
 						<td align="right">
-							<a href="{{route('admin.project.edit', $item->id)}}" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> EDIT</a>
+							<a href="{{route('admin.photo.edit', $item->id)}}" class="btn btn-info btn-xs"><i class="glyphicon glyphicon-pencil"></i> EDIT</a>
 							<span class="inline-block-span">
 									 {{Form::open(['route'=>['admin.photo.destroy',$item->id],'method'=> "delete" ])}}
 									<button class="btn  btn-danger btn-xs remove-btn" type="button" attrid="{{$item->id}}" onclick="confirm_remove(this);"><i class="glyphicon glyphicon-remove"></i> REMOVE</button>
@@ -85,7 +85,7 @@
 				alertify.confirm('You can not undo this action. Are you sure ?', function(e){
 					if(e){
 						$.ajax({
-							'url':"",
+							'url':"{{route('admin.photo.deleteAll')}}",
 							'data' : {arr: data,_token:$('meta[name="csrf-token"]').attr('content')},
 							'type': "POST",
 							'success':function(result){

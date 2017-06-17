@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="favicon_16.ico"/>
     <link rel="bookmark" href="favicon_16.ico"/>
     <!-- site css -->
+    <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/bootflat-admin/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/css/site.min.css">
     <link rel="stylesheet" href="{{asset('/public/assets/admin')}}/dist/css/customize.min.css">
     @yield('css')

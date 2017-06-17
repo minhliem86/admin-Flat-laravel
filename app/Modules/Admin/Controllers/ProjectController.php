@@ -12,6 +12,7 @@ use App\Repositories\Eloquent\CommonRepository;
 class ProjectController extends Controller
 {
     protected $projectRepo;
+    protected $_removePath1 = '/laravel-filemanager/';
 
     public function __construct(ProjectRepository $projectRepo)
     {
@@ -47,7 +48,7 @@ class ProjectController extends Controller
     public function store(Request $request, CommonRepository $common)
     {
         $order = $this->projectRepo->getOrder();
-        $img_url = $common->getPath($request->input('img_url'));
+        $img_url = $common->getPath($request->input('img_url'), $this->_removePath1);
         $data = [
           'video_id' => $request->input('video_id'),
           'title' => $request->input('title'),
@@ -120,5 +121,17 @@ class ProjectController extends Controller
           return redirect()->back()->with('success', 'Delete Successful.');
         }
           return redirect()->back()->with('success', 'Delete Fail.');
+    }
+
+    // DELETE ALL
+    public function deleteAll(Request $request)
+    {
+      if(!$request->ajax()){
+        abort(404, 'No Permission');
+      }else{
+        $data = $request->input('arr');
+        $this->projectRepo->deleteAll($data);
+        return redirect()->route('admin.project.index')->with('success','Item Deleted.');
+      }
     }
 }

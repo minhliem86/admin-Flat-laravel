@@ -91,7 +91,7 @@
           alertify.confirm('You can not undo this action. Are you sure ?', function(e){
             if(e){
               $.ajax({
-                'url':"",
+                'url':"{{route('admin.project.deleteAll')}}",
                 'data' : {arr: data,_token:$('meta[name="csrf-token"]').attr('content')},
                 'type': "POST",
                 'success':function(result){

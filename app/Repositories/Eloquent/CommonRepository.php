@@ -21,11 +21,8 @@ class CommonRepository{
     return $img_url = asset($destinationPath).'/'.$filename;
   }
 
-  public function getPath($path)
+  public function getPath($path, $removePath)
   {
-    $arr_output = explode('/',$path);
-    $arr_remove = [$arr_output[0],$arr_output[1]];
-    $arr = array_diff($arr_output, $arr_remove);
-    return implode('/', $arr);
+    return $str = str_replace($removePath,'',$path);
   }
 }

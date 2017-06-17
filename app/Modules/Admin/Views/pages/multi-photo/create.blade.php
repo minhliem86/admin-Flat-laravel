@@ -70,7 +70,7 @@
             <!-- The fileinput-button span is used to style the file input field as button -->
             <span class="btn btn-success fileinput-button dz-clickable">
                 <i class="glyphicon glyphicon-plus"></i>
-                <span>Add files (1200x630)...</span>
+                <span>Add files</span>
             </span>
             <button type="submit" class="btn btn-primary start">
                 <i class="glyphicon glyphicon-upload"></i>
@@ -99,9 +99,9 @@
             </div>
             <div class="file-row">
                 <p class="size" data-dz-size></p>
-                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <!-- <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                   <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
-                </div>
+                </div> -->
             </div>
             <div class="file-row">
               <button data-dz-remove class="btn btn-warning cancel">
