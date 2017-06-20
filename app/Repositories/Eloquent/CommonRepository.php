@@ -21,7 +21,7 @@ class CommonRepository{
     return $img_url = asset($destinationPath).'/'.$filename;
   }
 
-  public function getPath($path, $removePath)
+  public function getPath($path, $removePath = '/laravel-filemanager/')
   {
     return $str = str_replace($removePath,'',$path);
   }
