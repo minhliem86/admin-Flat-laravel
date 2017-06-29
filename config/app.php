@@ -164,6 +164,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
         \Krucas\Notification\NotificationServiceProvider::class,
+         Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider::class,
+         Dimsav\Translatable\TranslatableServiceProvider::class,
     ],
 
     /*
@@ -213,6 +215,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'LaravelLocalization' => Mcamara\LaravelLocalization\Facades\LaravelLocalization::class,
     ],
 
 ];
