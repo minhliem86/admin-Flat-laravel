@@ -17,11 +17,15 @@ class LangController extends Controller
 
     public function getNews()
     {
-        return view('Front::pages.news');
+        $tin = Tintuc::all();
+        return view('Front::pages.news', compact('tin'));
     }
 
-    public function getNewsdetail($slug = null){
-
+    public function getNewsdetail(Tintuc $tintuc, $slug = null){
+        if($slug){
+            $news_detail = $tintuc->whereTranslation('slug', $slug)->first();
+            return view('Front::pages.news-detail', compact('news_detail'));
+        }
     }
 
     public function creatNews(){
@@ -32,6 +36,8 @@ class LangController extends Controller
         $tin = new Tintuc;
         $tin->fill($data);
         $tin->save();
-        return redirect()->route('f.news', compact('tin'));
+
+
+        return redirect()->route('f.news');
     }
 }
