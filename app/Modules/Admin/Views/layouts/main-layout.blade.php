@@ -24,10 +24,13 @@
     <script type="text/javascript" src="{{asset('/public/assets/admin')}}/bootflat-admin/js/jquery-1.10.1.min.js"></script>
     <script type="text/javascript" src="{{asset('/public/assets/admin')}}/dist/js/site.min.js"></script>
     <script type="text/javascript" src="{{asset('/public/assets/admin')}}/dist/js/scroll/jquery.mCustomScrollbar.min.js"></script>
+    <!-- CHART JS -->
+    <script src="{{asset('/public/assets/admin')}}/dist/js/Chart.js"></script>
     <script>
       $(document).ready(function(){
         $('.panel-body').mCustomScrollbar({
             // scrollbarPosition: 'outside',
+            autoHideScrollbar: true,
             scrollInertia: 250
         })
       })
@@ -57,7 +60,7 @@
                 </div>
               </div>
             </div>
-            <div class="panel-body">
+            <div class="{{Request::segment(2) === 'dashboard' ? 'panel-body-dashboard' : 'panel-body' }}">
               @yield('content')
             </div><!-- panel body -->
           </div>
